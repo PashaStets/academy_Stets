@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: 127.0.0.1
--- Время создания: Окт 27 2014 г., 14:51
+-- Время создания: Окт 28 2014 г., 18:40
 -- Версия сервера: 5.5.25
 -- Версия PHP: 5.3.13
 
@@ -40,7 +40,14 @@ CREATE TABLE IF NOT EXISTS `director` (
   KEY `date_of_birth` (`date_of_birth`),
   KEY `date_of_death` (`date_of_death`),
   KEY `nationality` (`nationality`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+--
+-- Дамп данных таблицы `director`
+--
+
+INSERT INTO `director` (`id`, `name`, `surname`, `date_of_birth`, `date_of_death`, `nationality`) VALUES
+(1, 'Peter', 'Jackson', '1961-10-31', '0000-00-00', 'New Zealand');
 
 -- --------------------------------------------------------
 
@@ -59,7 +66,42 @@ CREATE TABLE IF NOT EXISTS `film_studio` (
   KEY `name_3` (`name`),
   KEY `address` (`address`),
   KEY `contact_person` (`contact_person`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+--
+-- Дамп данных таблицы `film_studio`
+--
+
+INSERT INTO `film_studio` (`id`, `name`, `address`, `contact_person`) VALUES
+(1, 'New Line Cinema', '116 N Robertson Blvd Los Angeles, CA 90048', 'Time Warner');
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `help_table1`
+--
+
+CREATE TABLE IF NOT EXISTS `help_table1` (
+  `director` varchar(100) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `surname` varchar(100) NOT NULL,
+  KEY `director` (`director`),
+  KEY `name` (`name`),
+  KEY `surname` (`surname`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `help_table2`
+--
+
+CREATE TABLE IF NOT EXISTS `help_table2` (
+  `film_studio` varchar(100) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  KEY `film_studio` (`film_studio`),
+  KEY `name` (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -87,24 +129,33 @@ CREATE TABLE IF NOT EXISTS `movie` (
   KEY `premiere` (`premiere`),
   KEY `budget` (`budget`),
   KEY `in_the_collection_from` (`in_the_collection_from`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+--
+-- Дамп данных таблицы `movie`
+--
+
+INSERT INTO `movie` (`id`, `director`, `movie_name`, `genre`, `duration`, `premiere`, `budget`, `film_studio`, `in_the_collection_from`) VALUES
+(1, 'Peter Jackson', 'The Hobbit: An Unexpected Journey', 'Adventure, Fantasy', '02:49:37', '2012-11-28', 180000000, 'New Line Cinema, Metro-Goldwyn-Mayer (MGM), WingNut Films', '2014-10-28');
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц
 --
 
 --
--- Ограничения внешнего ключа таблицы `director`
+-- Ограничения внешнего ключа таблицы `help_table1`
 --
-ALTER TABLE `director`
-  ADD CONSTRAINT `director_ibfk_2` FOREIGN KEY (`surname`) REFERENCES `movie` (`director`),
-  ADD CONSTRAINT `director_ibfk_1` FOREIGN KEY (`name`) REFERENCES `movie` (`director`);
+ALTER TABLE `help_table1`
+  ADD CONSTRAINT `help_table1_ibfk_3` FOREIGN KEY (`surname`) REFERENCES `director` (`surname`),
+  ADD CONSTRAINT `help_table1_ibfk_1` FOREIGN KEY (`director`) REFERENCES `movie` (`director`),
+  ADD CONSTRAINT `help_table1_ibfk_2` FOREIGN KEY (`name`) REFERENCES `director` (`name`);
 
 --
--- Ограничения внешнего ключа таблицы `film_studio`
+-- Ограничения внешнего ключа таблицы `help_table2`
 --
-ALTER TABLE `film_studio`
-  ADD CONSTRAINT `film_studio_ibfk_1` FOREIGN KEY (`name`) REFERENCES `movie` (`film_studio`) ON DELETE CASCADE;
+ALTER TABLE `help_table2`
+  ADD CONSTRAINT `help_table2_ibfk_2` FOREIGN KEY (`name`) REFERENCES `film_studio` (`name`),
+  ADD CONSTRAINT `help_table2_ibfk_1` FOREIGN KEY (`film_studio`) REFERENCES `movie` (`film_studio`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
