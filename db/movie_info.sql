@@ -26,7 +26,7 @@ SET time_zone = "+00:00";
 -- Структура таблицы `director`
 --
 
-CREATE TABLE IF NOT EXISTS `director` (
+CREATE TABLE IF NOT EXISTS `director` ( -- directors (множина)
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
   `surname` varchar(100) NOT NULL,
@@ -55,11 +55,11 @@ INSERT INTO `director` (`id`, `name`, `surname`, `date_of_birth`, `date_of_death
 -- Структура таблицы `film_studio`
 --
 
-CREATE TABLE IF NOT EXISTS `film_studio` (
+CREATE TABLE IF NOT EXISTS `film_studio` ( --studios 
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
   `address` varchar(100) NOT NULL,
-  `contact_person` varchar(100) NOT NULL,
+  `contact_person` varchar(100) NOT NULL, -- contact_person_id і звязок із іншою таблицею
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`,`address`,`contact_person`),
   KEY `name_2` (`name`,`address`,`contact_person`),
@@ -81,7 +81,7 @@ INSERT INTO `film_studio` (`id`, `name`, `address`, `contact_person`) VALUES
 -- Структура таблицы `help_table1`
 --
 
-CREATE TABLE IF NOT EXISTS `help_table1` (
+CREATE TABLE IF NOT EXISTS `help_table1` ( --красномовна назва, по якій напевне можна здогадатися, що в цій таблиці за дані :)
   `director` varchar(100) NOT NULL,
   `name` varchar(100) NOT NULL,
   `surname` varchar(100) NOT NULL,
@@ -111,14 +111,14 @@ CREATE TABLE IF NOT EXISTS `help_table2` (
 
 CREATE TABLE IF NOT EXISTS `movie` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `director` varchar(100) NOT NULL,
-  `movie_name` varchar(100) NOT NULL,
-  `genre` varchar(100) NOT NULL,
+  `director` varchar(100) NOT NULL, -- director_id
+  `movie_name` varchar(100) NOT NULL, -- просто name
+  `genre` varchar(100) NOT NULL, -- genre_id --крім того, що треба винести в окрему таблицю, бо фільм може мати багато жанрів
   `duration` time NOT NULL,
   `premiere` date NOT NULL,
   `budget` int(11) NOT NULL,
-  `film_studio` varchar(100) NOT NULL,
-  `in_the_collection_from` date NOT NULL,
+  `film_studio` varchar(100) NOT NULL, --studia_id
+  `in_the_collection_from` date NOT NULL, --занадто довга назва поля
   PRIMARY KEY (`id`),
   UNIQUE KEY `director` (`director`,`movie_name`,`genre`,`duration`,`premiere`,`budget`,`film_studio`,`in_the_collection_from`),
   KEY `film_studio` (`film_studio`),
